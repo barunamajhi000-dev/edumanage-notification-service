@@ -2,10 +2,13 @@ package com.edumanage.edumanage_notification_service.controller;
 
 
 import com.edumanage.edumanage_notification_service.dto.NotificationHealthResponse;
+import com.edumanage.edumanage_notification_service.dto.NotificationRequest;
+import com.edumanage.edumanage_notification_service.dto.NotificationResponse;
 import com.edumanage.edumanage_notification_service.service.NotificationService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/notifications")
@@ -27,4 +30,12 @@ public class NotificationController {
         return notificationService.getHealthStatus();
     }
 
+    @PostMapping
+    public ResponseEntity<NotificationResponse> createNotification(@Valid @RequestBody NotificationRequest request){
+
+        NotificationResponse response = notificationService.createNotification(request);
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(response);
+    }
 }
