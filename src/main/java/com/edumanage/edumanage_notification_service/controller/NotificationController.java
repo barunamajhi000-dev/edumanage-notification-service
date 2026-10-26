@@ -38,4 +38,14 @@ public class NotificationController {
                 .status(HttpStatus.ACCEPTED)
                 .body(response);
     }
+
+    @GetMapping
+    public java.util.List<NotificationResponse>getAllNotifications(){
+        return notificationService.getAllNotifications();
+    }
+
+    @GetMapping("/{id}")
+    public NotificationResponse getNotificationById(@PathVariable Long id){
+        return notificationService.getNotificationById(id);
+    }
 }
