@@ -53,4 +53,10 @@ public class NotificationController {
     public NotificationResponse updateNotification(@PathVariable Long id,@Valid @RequestBody NotificationRequest request){
         return notificationService.updateNotification(id,request);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNotification(@PathVariable Long id){
+        notificationService.deleteNotification(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

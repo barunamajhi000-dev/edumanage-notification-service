@@ -98,4 +98,17 @@ public class NotificationService {
         );
     }
 
+    @Transactional
+    public void deleteNotification(Long id) {
+
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(() ->
+                        new NotificationNotFoundException(
+                                "Notification not found with id: " + id
+                        ));
+
+        notificationRepository.delete(notification);
+    }
+
+
 }
