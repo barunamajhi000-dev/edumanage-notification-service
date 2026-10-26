@@ -48,4 +48,9 @@ public class NotificationController {
     public NotificationResponse getNotificationById(@PathVariable Long id){
         return notificationService.getNotificationById(id);
     }
+
+    @PutMapping("/{id}")
+    public NotificationResponse updateNotification(@PathVariable Long id,@Valid @RequestBody NotificationRequest request){
+        return notificationService.updateNotification(id,request);
+    }
 }

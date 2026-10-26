@@ -76,4 +76,26 @@ public class NotificationService {
         );
     }
 
+    @Transactional
+    public NotificationResponse updateNotification(Long id,NotificationRequest request){
+
+        Notification notification = notificationRepository.findById(id)
+                .orElseThrow(()->new NotificationNotFoundException(
+                        "Notification not found with is id : " +id
+                ));
+
+        notification.setRecipient(request.recipient());
+        notification.setMessage(request.message());
+
+        Notification updateNotification = notificationRepository.save(notification);
+
+        return new NotificationResponse(
+                updateNotification.getId(),
+                updateNotification.getRecipient(),
+                updateNotification.getMessage(),
+                updateNotification.getStatus(),
+                updateNotification.getCreatedAt()
+        );
+    }
+
 }
