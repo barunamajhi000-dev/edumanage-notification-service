@@ -7,7 +7,13 @@ import com.edumanage.edumanage_notification_service.entity.Notification;
 import com.edumanage.edumanage_notification_service.repository.NotificationRepository;
 import com.edumanage.edumanage_notification_service.exception.NotificationNotFoundException;
 import jakarta.transaction.Transactional;
+
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class NotificationService {
@@ -47,18 +53,20 @@ public class NotificationService {
         );
     }
 
+
     @Transactional
-    public java.util.List<NotificationResponse> getAllNotifications(){
-        return notificationRepository.findAll()
-                .stream()
+    public Page<NotificationResponse> getAllNotifications(Pageable pageable) {
+
+        return notificationRepository.findAll(pageable)
                 .map(notification -> new NotificationResponse(
                         notification.getId(),
                         notification.getRecipient(),
                         notification.getMessage(),
                         notification.getStatus(),
                         notification.getCreatedAt()
-                )).toList();
+                ));
     }
+
 
     @Transactional
     public NotificationResponse getNotificationById(Long id){

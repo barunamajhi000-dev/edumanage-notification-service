@@ -6,6 +6,10 @@ import com.edumanage.edumanage_notification_service.dto.NotificationRequest;
 import com.edumanage.edumanage_notification_service.dto.NotificationResponse;
 import com.edumanage.edumanage_notification_service.service.NotificationService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +43,16 @@ public class NotificationController {
                 .body(response);
     }
 
+
     @GetMapping
-    public java.util.List<NotificationResponse>getAllNotifications(){
-        return notificationService.getAllNotifications();
+    public Page<NotificationResponse> getAllNotifications(
+            @PageableDefault(size = 10, sort = "createdAt",
+                    direction = Sort.Direction.DESC)
+            Pageable pageable) {
+
+        return notificationService.getAllNotifications(pageable);
     }
+
 
     @GetMapping("/{id}")
     public NotificationResponse getNotificationById(@PathVariable Long id){
