@@ -7,7 +7,8 @@ import com.edumanage.edumanage_notification_service.entity.Notification;
 import com.edumanage.edumanage_notification_service.repository.NotificationRepository;
 import com.edumanage.edumanage_notification_service.exception.NotificationNotFoundException;
 import jakarta.transaction.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationService {
     private final NotificationRepository notificationRepository;
-
+    private static final Logger log = LoggerFactory.getLogger(NotificationService.class);
 
     public NotificationService(NotificationRepository notificationRepository){
         this.notificationRepository = notificationRepository;
@@ -35,7 +36,7 @@ public class NotificationService {
 
     @Transactional
     public NotificationResponse createNotification(NotificationRequest request) {
-
+        log.info("Creating notification for recipient");
         Notification notification = new Notification();
         notification.setRecipient(request.recipient());
         notification.setMessage(request.message());
@@ -43,7 +44,7 @@ public class NotificationService {
 
         Notification savedNotification =
                 notificationRepository.save(notification);
-
+        log.info("Notification created successfully with id: {}", savedNotification.getId());
         return new NotificationResponse(
                 savedNotification.getId(),
                 savedNotification.getRecipient(),
